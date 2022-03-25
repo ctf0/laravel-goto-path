@@ -76,7 +76,7 @@ export function scrollToText() {
             let {authority, path} = provider
 
             if (authority == 'ctf0.laravel-goto-path') {
-                commands.executeCommand('vscode.openFolder', Uri.file(path))
+                commands.executeCommand('vscode.open', Uri.file(path))
             }
         }
     })
