@@ -7,3 +7,7 @@
 ## 0.0.3
 
 - use the correct file opening command
+
+## 0.0.4
+
+- make sure path separators are normalized

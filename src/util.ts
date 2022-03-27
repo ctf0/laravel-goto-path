@@ -57,16 +57,24 @@ async function getData(method, text) {
     for (const path of paths) {
         let p    = path.replace(/[\\\/]/g, sep)
         let file = text.replace(/[\\\/]/g, sep)
+        let normalizedPath = editor + normalizePath(`${ws}${p}${sep}${file}`)
 
         result.push({
             tooltip : file,
             fileUri : Uri
-                .parse(`${editor}${ws}${p}${sep}${file}`)
+                .parse(normalizedPath)
                 .with({authority: 'ctf0.laravel-goto-path'})
         })
     }
 
     return result
+}
+
+function normalizePath(path)
+{
+    return path
+            .replace(/\/+/g, '/')
+            .replace(/\+/g, '\\')
 }
 
 /* Scroll ------------------------------------------------------------------- */
