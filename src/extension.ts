@@ -12,7 +12,7 @@ import * as util from './util'
 
 let providers  = []
 
-export function activate(context: ExtensionContext) {
+export function activate({subscriptions}) {
     util.readConfig()
 
     // config
@@ -28,9 +28,6 @@ export function activate(context: ExtensionContext) {
         await clearAll()
         initProviders()
     })
-
-    // scroll
-    util.scrollToText()
 }
 
 const initProviders = debounce(function() {

@@ -11,3 +11,8 @@
 ## 0.0.4
 
 - make sure path separators are normalized
+
+## 0.1.0
+
+- fix link popup not being clickable
+- better api

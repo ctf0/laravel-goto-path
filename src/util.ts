@@ -7,9 +7,10 @@ import {
     window,
     commands
 } from 'vscode'
+import escapeStringRegexp from 'escape-string-regexp';
 
 const path = require('path')
-const sep  = path.sep
+const sep = path.sep
 
 let ws
 
@@ -45,7 +46,6 @@ export async function getFilePaths(method, text) {
 }
 
 async function getData(method, text) {
-    let editor = `${env.uriScheme}://file`
     let paths  = config.list[method]
     let result = []
 
@@ -57,13 +57,10 @@ async function getData(method, text) {
     for (const path of paths) {
         let p    = path.replace(/[\\\/]/g, sep)
         let file = text.replace(/[\\\/]/g, sep)
-        let normalizedPath = editor + normalizePath(`${ws}${p}${sep}${file}`)
 
         result.push({
-            tooltip : file,
-            fileUri : Uri
-                .parse(normalizedPath)
-                .with({authority: 'ctf0.laravel-goto-path'})
+            tooltip: file,
+            fileUri: Uri.file(normalizePath(`${ws}${p}${sep}${file}`))
         })
     }
 
@@ -77,18 +74,6 @@ function normalizePath(path)
             .replace(/\+/g, '\\')
 }
 
-/* Scroll ------------------------------------------------------------------- */
-export function scrollToText() {
-    window.registerUriHandler({
-        handleUri(provider) {
-            let {authority, path} = provider
-
-            if (authority == 'ctf0.laravel-goto-path') {
-                commands.executeCommand('vscode.open', Uri.file(path))
-            }
-        }
-    })
-}
 
 /* Helpers ------------------------------------------------------------------ */
 
@@ -110,7 +95,6 @@ function saveCache(cache_store, text, val) {
 }
 
 /* Config ------------------------------------------------------------------- */
-const escapeStringRegexp = require('escape-string-regexp')
 export const PACKAGE_NAME = 'laravelGotoPath'
 export let config: any = {}
 export let methods: any = ''

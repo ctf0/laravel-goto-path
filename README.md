@@ -18,6 +18,4 @@ open path helpers file on click
 
 ### Limitations
 
-- directory paths cant be highlighted due to
-    - the lack of having an api to reval something in the sidebar programmatically.
-    - or expand a folder without opening a file programmatically
+- directory paths cant be highlighted due to the lack of api to expand a folder without opening a file.
