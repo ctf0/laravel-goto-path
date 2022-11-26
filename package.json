@@ -2,7 +2,7 @@
     "name": "laravel-goto-path",
     "displayName": "Laravel Goto Path",
     "description": "Quick jump to path",
-    "version": "0.1.0",
+    "version": "0.1.5",
     "publisher": "ctf0",
     "engines": {
         "vscode": "^1.68.0"
@@ -57,8 +57,7 @@
         "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
         "esbuild": "npm run esbuild-base -- --sourcemap",
         "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
-        "watch": "npm run vscode:prepublish",
-        "test-compile": "tsc -p ./"
+        "watch": "npm run vscode:prepublish"
     },
     "devDependencies": {
         "@types/glob": "^8.0.0",
