@@ -2,7 +2,7 @@
     "name": "laravel-goto-path",
     "displayName": "Laravel Goto Path",
     "description": "Quick jump to path",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "publisher": "ctf0",
     "engines": {
         "vscode": "^1.68.0"
@@ -47,7 +47,7 @@
                     },
                     "minItems": 1,
                     "uniqueItems": true,
-                    "description": "methods to search for"
+                    "description": "methods names & its path"
                 }
             }
         }
@@ -60,15 +60,13 @@
         "watch": "npm run vscode:prepublish"
     },
     "devDependencies": {
-        "@types/glob": "^8.0.0",
         "@types/node": "^18.11.9",
         "@types/vscode": "^1.68.0",
-        "glob": "^8.0.3",
         "esbuild": "^0.15.13",
         "typescript": "^4.8.4"
     },
     "dependencies": {
         "escape-string-regexp": "^5.0.0",
-        "lodash": "^4.17.21"
+        "lodash.debounce": "^4.0.8"
     }
 }
