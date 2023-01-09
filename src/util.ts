@@ -5,10 +5,12 @@ import * as path from 'node:path';
 import {
     Uri,
     workspace,
+    WorkspaceConfiguration,
 } from 'vscode';
 
 const sep = path.sep;
-
+export const cmndName = 'lgp.revealFolder';
+const scheme = `command:${cmndName}`;
 let ws;
 
 export function setWs(uri) {
@@ -20,12 +22,6 @@ export function setWs(uri) {
 const cache_store_link = [];
 
 export async function getFilePaths(method, text) {
-    // allow files only
-    // as we don't have an api for revel in sidebar
-    if (!text.includes('.')) {
-        return [];
-    }
-
     text = text.replace(/['"]/g, '');
 
     const cache_key = `${method}_${text}`;
@@ -42,27 +38,45 @@ export async function getFilePaths(method, text) {
     return list;
 }
 
+function prepareArgs(args: object) {
+    return encodeURIComponent(JSON.stringify([args]));
+}
+
 async function getData(method, text) {
     let paths = config.list[method];
-    const result = [];
+    const result: any = [];
 
     // in case a method can have multiple paths config
     if (!Array.isArray(paths)) {
         paths = [paths];
     }
 
+    const isAFolder = !text.includes('.');
+
     for (const path of paths) {
         const p = path.replace(/[\\\/]/g, sep);
-        const file = text.replace(/[\\\/]/g, sep);
+        let file = text.replace(/[\\\/]/g, sep);
+        file = normalizePath(`${ws}${p}${sep}${file}`);
+
+        let fileUri: Uri;
+
+        if (isAFolder) {
+            const args = prepareArgs({ folderPath: file });
+
+            fileUri = Uri.parse(`${scheme}?${args}`);
+        } else {
+            fileUri = Uri.file(file);
+        }
 
         result.push({
             tooltip : file,
-            fileUri : Uri.file(normalizePath(`${ws}${p}${sep}${file}`)),
+            fileUri : fileUri,
         });
     }
 
     return result;
 }
+
 
 function normalizePath(path) {
     return path
@@ -92,7 +106,7 @@ function saveCache(cache_store, text, val) {
 
 /* Config ------------------------------------------------------------------- */
 export const PACKAGE_NAME = 'laravelGotoPath';
-export let config: any = {};
+export let config: WorkspaceConfiguration;
 export let methods: any = '';
 
 export function readConfig() {

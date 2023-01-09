@@ -2,6 +2,8 @@
 
 import debounce from 'lodash.debounce';
 import {
+    Uri,
+    commands,
     languages,
     window,
     workspace,
@@ -9,24 +11,36 @@ import {
 import LinkProvider from './providers/linkProvider';
 import * as util from './util';
 
-let providers = [];
+let providers: any = [];
 
 export function activate({ subscriptions }) {
     util.readConfig();
 
     // config
-    workspace.onDidChangeConfiguration((e) => {
-        if (e.affectsConfiguration(util.PACKAGE_NAME)) {
-            util.readConfig();
-        }
-    });
+    subscriptions.push(
+        workspace.onDidChangeConfiguration((e) => {
+            if (e.affectsConfiguration(util.PACKAGE_NAME)) {
+                util.readConfig();
+            }
+        }),
+        commands.registerCommand(util.cmndName, async (args = undefined) => {
+            if (args !== undefined) {
+                const { folderPath } = args;
+
+                await commands.executeCommand('workbench.action.focusSideBar');
+                await commands.executeCommand('revealInExplorer', Uri.parse(folderPath));
+            }
+        }),
+    );
 
     // links
     initProviders();
-    window.onDidChangeActiveTextEditor(async (e) => {
-        await clearAll();
-        initProviders();
-    });
+    subscriptions.push(
+        window.onDidChangeActiveTextEditor(async (e) => {
+            await clearAll();
+            initProviders();
+        }),
+    );
 }
 
 const initProviders = debounce(() => {

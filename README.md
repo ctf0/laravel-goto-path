@@ -15,7 +15,3 @@ open path helpers file on click
 > - asset()
 > - global_asset() // stancl/tenancy
 > - secure_asset() // local files only
-
-### Limitations
-
-- directory paths cant be highlighted due to the lack of api to expand a folder without opening a file.

@@ -16,3 +16,7 @@
 
 - fix link popup not being clickable
 - better api
+
+## 0.1.7
+
+- we can now highlight directories paths in sidebar
