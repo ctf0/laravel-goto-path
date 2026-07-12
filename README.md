@@ -1,3 +1,5 @@
+> Laravel now have this [vscode-laravel](https://marketplace.visualstudio.com/items?itemName=laravel.vscode-laravel)
+
 # Laravel Goto Path
 
 open path helpers file on click
